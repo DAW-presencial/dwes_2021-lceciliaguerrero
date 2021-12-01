@@ -62,6 +62,7 @@ yarn-error.log
 *.ipr
 
 ### NetBeans ###
+/nbproject/
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -74,3 +75,4 @@ build/
 ### VS Code ###
 .vscode/
 /.idea/
+
