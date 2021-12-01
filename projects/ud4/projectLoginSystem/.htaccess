@@ -1,0 +1,13 @@
+# Corregir reescritura
+Options -Multiviews
+
+# Reescritura modificada
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /projectLoginSystem/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# utilizado para páginas php como "yoursite.com/login.php" se convertirá en "yoursite.com/login/"
+RewriteRule ^([a-z_]+)\/?$ $1.php [NC]
