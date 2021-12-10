@@ -2,13 +2,9 @@
 
 class Database
 {
-    //constantes
-    //Esto es un singleton:
-    //    constructor privado para que no se pueda instanciar método statico para ejecutar la conexión a la db
-    //    todas las propiedades son privadas la propiedad de la conexión es static
     private const GESTOR_BASE_DATOS = "pgsql";
     private const CONTRA = "laura";
-    private const USUARIO = "lcecilia_agendaDB_user";
+    private const USUARIO = "lcecilia_usr";
     private const NOMBRE_BASE_DATOS = "lcecilia_agendaDB_db";
     private const RUTA_SERVIDOR = "localhost";
     private const PUERTO = "5432";

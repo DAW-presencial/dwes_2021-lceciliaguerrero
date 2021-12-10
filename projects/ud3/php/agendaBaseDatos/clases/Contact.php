@@ -2,14 +2,23 @@
 
 class Contact
 {
-    private $conn;
+    private static mixed $conn;
     private string $name;
     private string $email;
     private string $telf;
 
-    /**/public function __construct(mixed $db)
+    /**/
+    public function __construct(mixed $db)
     {
-        $this->conn = $db;
+        self::setConn($db);
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getConn(): mixed
+    {
+        return self::$conn;
     }
     /*public function __construct(mixed $db, string $name, mixed $email, string $telf)
     {
@@ -18,51 +27,41 @@ class Contact
         $this->email = $email;
         $this->telf = $telf;
     }*/
+
     /**
-     * @return string
+     * @param mixed $conn
      */
-    public function index(): string
+    public static function setConn(mixed $conn): void
     {
-        //Postgres
-        $query = "select id, name, email, telephone_number from contact";
-        $output = "";
-        try {
-            $stmtQuery = $this->conn->query($query);
-            foreach ($stmtQuery as $item) {
-                $output .= "<p> id: '" . $item['id'] . "' name: '" . $item['name'] . "' email: '" . $item['email'] .
-                    "' telf: '" . $item['telephone_number'] . "'.</p>";
-            }
-            return $output;
-        } catch (PDOException $PDOExceptionIndex) {
-            return "Error listado de contactos" . $PDOExceptionIndex->getMessage();
-        }
+        self::$conn = $conn;
     }
 
     /**
      * Show the form for creating a new resource.
      * @param string $name
-     * @param string $email
+     * @param mixed $email
      * @param string $telf
      * @return bool
      */
-    public function create(string $name, string $email, string $telf): bool
+    public function create(string $name, mixed $email, string $telf): bool
     {
         $this->setName($name);
         $this->setEmail($email);
         $this->setTelf($telf);
         //Postgres
         $query = "insert into contact(name, email, telephone_number) values (:name, :email, :telephone_number)";
-/*        $myPrepare = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY);*/
+        $myPrepare = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY);/**/
         $param = array(':name' => $this->getName(), ':email' => $this->getEmail(), ':telephone_number' => $this->getTelf());
         try {/*$this->exist($this->getName(), $this->getEmail(), $this->getTelf())*/
-            if ($this->existEmail($this->getEmail()) === false) {
-                $stmtPrepare = $this->conn->prepare($query);
-                $result = $this->conn->execute($param);
-                if ($result) {
+            if ($this->exist($this->getEmail(), $this->getTelf()) === false) {
+                $stmtPrepare = self::getConn()->prepare($query, $myPrepare);
+                $stmtPrepare->execute($param);
+                $resultado = boolval($stmtPrepare->fetchAll());
+                if ($resultado === true) {
                     echo "<p>Usuario creado correctamente<p>";
                     return true;
                 } else {
-                    $this->showError($result);
+                    $this->showError($stmtPrepare);
                     return false;
                 }
             } else {
@@ -136,25 +135,25 @@ class Contact
 
     /**
      * Existe email
-     * @param mixed $name
+     * @param mixed $email
      * @return bool
      */
-    public function existEmail(mixed $name): bool
+    public function existEmail(mixed $email): bool
     {
-        /*$myQuery = "select name, email, telephone_number from contact;";*/
-        $myQuery = "select name, email, telephone_number from contact where email = :email;";
+        /*$query = "select name, email, telephone_number from contact;";*/
+        $query = "select name, email, telephone_number from contact where email = :email;";
         $myPrepare = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY);
-        $myExecute = array(':email' => $name);
-        /*$myExecute = array(':name' => $this->getName(), ':email' => $this->getEmail(), ':telephone_number' => $this->getTelf());*/
+        $param = array(':email' => $email);
+        /*$param = array(':name' => $this->getName(), ':email' => $this->getEmail(), ':telephone_number' => $this->getTelf());*/
         try {
-            $stmtPrepare = self::getDb()->prepare($myQuery, $myPrepare);
-            $stmtExecute = $stmtPrepare->execute($myExecute);
-            if ($stmtExecute) {
+            $stmtPrepare = self::getConn()->prepare($query, $myPrepare);
+            $stmtPrepare->execute($param);
+            $resultado = boolval($stmtPrepare->fetchAll());
+            if ($resultado === true) {
                 $stmtPrepare->rowCount();
                 echo "<p>El usuario ya existe<p>";
                 return true;
             } else {
-                $this->showError($stmtExecute);
                 echo "<p>El usuario no existe<p>";
                 return false;
             }
@@ -165,7 +164,7 @@ class Contact
 
         /*$nombre = htmlspecialchars(strip_tags($this->getName()));
 
-        $stmt = self::getDb()->prepare($myQuery);
+        $stmt = self::getDb()->prepare($query);
         $stmt->bindParam(':name', $nombre);
         if ($stmt->execute()) {
             $stmt->rowCount();
@@ -190,24 +189,25 @@ class Contact
     /**
      * Update the specified resource in storage.
      * @param string $name
-     * @param string $email
+     * @param mixed $email
      * @param string $telf
      * @return bool
      */
-    public function update(string $name, string $email, string $telf): bool
+    public function update(string $name, mixed $email, string $telf): bool
     {
         //Postgres
-        $myQuery = "update contact set name = :newName, telephone_number = :newTelephone_number where email = :email;";
+        $query = "update contact set name = :newName, telephone_number = :newTelephone_number where email = :email;";
         $myPrepare = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY);
-        $myExecute = array(':newName' => $name, ':newTelephone_number' => $telf, ':email' => $email);
+        $param = array(':newName' => $name, ':newTelephone_number' => $telf, ':email' => $email);
         try {
-            $stmtPrepare = self::getDb()->prepare($myQuery, $myPrepare);
-            $stmtExecute = $stmtPrepare->execute($myExecute);
-            if ($stmtExecute) {
+            $stmtPrepare = self::getConn()->prepare($query, $myPrepare);
+            $stmtPrepare->execute($param);
+            $resultado = boolval($stmtPrepare->fetchAll());
+            if ($resultado === true) {
                 echo "<p>Usuario actualizado correctamente<p>";
                 return true;
             } else {
-                $this->showError($stmtExecute);
+                $this->showError($stmtPrepare);
                 return false;
             }
         } catch (PDOException $PDOExceptionUpdate) {
@@ -228,18 +228,18 @@ class Contact
         $this->setName($name);
         $this->setEmail($email);
         $this->setTelf($telf);
-        $myQuery = "delete from contact where name = :name and email = :email and telephone_number = :telephone_number";
+        $query = "delete from contact where name = :name and email = :email and telephone_number = :telephone_number";
         $myPrepare = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY);
-        $myExecute = array(':name' => $this->getName(), ':email' => $this->getEmail(), ':telephone_number' => $this->getTelf());
+        $param = array(':name' => $this->getName(), ':email' => $this->getEmail(), ':telephone_number' => $this->getTelf());
         try {
-            if ($this->existEmail($this->getEmail()) === true) {
-                $stmtPrepare = self::getDb()->prepare($myQuery, $myPrepare);
-                $stmtExecute = $stmtPrepare->execute($myExecute);
-                if ($stmtExecute) {
+            if ($this->exist($this->getEmail(), $this->getTelf()) === true) {
+                $stmtPrepare = self::getConn()->prepare($query, $myPrepare);
+                $stmtPrepare->execute($param);
+                $resultado = boolval($stmtPrepare->fetchAll());
+                if ($resultado === true) {
                     echo "<p>Usuario eliminado correctamente<p>";
                     return true;
                 } else {
-                    $this->showError($stmtExecute);
                     return false;
                 }
             } else {
@@ -253,26 +253,25 @@ class Contact
     }
 
     /**
-     * @param string $name
-     * @param string $email
+     * @param mixed $email
      * @param string $telf
      * @return bool
      */
-    public function exist(string $name, string $email, string $telf): bool
+    public function exist(mixed $email, string $telf): bool
     {
-        $myQuery = "select name, email, telephone_number from contact where name = :name or email = :email or telephone_number = :telephone_number;";
+        $query = "select name, email, telephone_number from contact where email = :email or telephone_number = :telephone_number;";
         $myPrepare = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY);
-        $myExecute = array(':name' => $name, ':email' => $email, ':telephone_number' => $telf);
+        $param = array(':email' => $email, ':telephone_number' => $telf);
         /*$myExecute = array(':name' => $this->getName(), ':email' => $this->getEmail(), ':telephone_number' => $this->getTelf());*/
         try {
-            $stmtPrepare = self::getDb()->prepare($myQuery, $myPrepare);
-            $stmtExecute = $stmtPrepare->execute($myExecute);
-            if ($stmtExecute) {
+            $stmtPrepare = self::getConn()->prepare($query, $myPrepare);
+            $stmtPrepare->execute($param);
+            $resultado = boolval($stmtPrepare->fetchAll());
+            if ($resultado === true) {
                 $stmtPrepare->rowCount();
                 echo "<p>El usuario ya existe<p>";
                 return true;
             } else {
-                $this->showError($stmtExecute);
                 echo "<p>El usuario no existe<p>";
                 return false;
             }
@@ -285,24 +284,27 @@ class Contact
     /**
      * @param mixed $limiteInicio
      * @param mixed $limiteFin
-     * @return string
+     * @return mixed|string|void
      */
-    public function list(mixed $limiteInicio, mixed $limiteFin): string
+    public function list(mixed $limiteInicio, mixed $limiteFin)
     {
         //Postgres
-        $myQuery = "select id, name, email, telephone_number from contact order by name limit :fin offset :inicio";
-        $myPrepare = array(PDO::ATTR_CURSOR => PDO::PARAM_INT);
-        $myExecute = array(':fin' => $limiteFin, ':inicio' => $limiteInicio);
+        $query = "select id, name, email, telephone_number from contact order by name limit $limiteFin offset $limiteInicio;";
         try {
-            $stmtPrepare = self::getDb()->prepare($myQuery, $myPrepare);
-            return $stmtPrepare->execute($myExecute);
-            /*$stmt = self::getDb()->prepare($myQuery);
-            $stmt->bindParam(':inicio', $limiteInicio);
-            $stmt->bindParam(':fin', $limiteFin);
-            $stmt->execute();
-            return $stmt;*/
+            return self::getConn()->query($query);
         } catch (PDOException $PDOExceptionList) {
             return "Error listado de contactos" . $PDOExceptionList->getMessage();
+        }
+    }
+
+    public function listComplete()
+    {
+        //Postgres
+        $query = "select id, name, email, telephone_number from contact order by name;";
+        try {
+            return self::getConn()->query($query);
+        } catch (PDOException $PDOExceptionListComplete) {
+            return "Error listado de contactos" . $PDOExceptionListComplete->getMessage();
         }
     }
 }

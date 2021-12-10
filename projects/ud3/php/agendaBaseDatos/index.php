@@ -34,7 +34,7 @@ function validateEmail(mixed $email)
 
 function validateTelf(string $telf)
 {
-    if ((strlen(trim($telf)) === 9)) {
+    if ((strlen(trim($telf)) <= 11)) {
         return $telf;
     }
     return false;
@@ -53,23 +53,8 @@ if (isset($_POST['createUpdateForm'])) {
     global $telefono;
     $contacto->destroy($nombre, $correo, $telefono);
 }
-$myList = $contacto->list($limiteConsulaPagina, $registrosPagina);
+/*$myList = $contacto->list($limiteConsulaPagina, $registrosPagina);*/
+$myList = $contacto->listComplete();
 $lista = $myList;
-
-$cuanto = 0;
-$output = "";
-$tablaIni = "<table>";
-$tablaHead = "<thead><tr><th>Id</th><th>Nombre</th><th>Correo Electrónico</th><th>Numero de Teléfono</th></tr></thead>";
-$tablaBodyIni = "<tbody>";
-$medio = "";
-foreach ($lista as $row) {
-    $medio .= "<tr>" . "<th>" . $row['id'] . "</th>" . "<th>" . $row['name'] . "</th>" . "<th>" . $row['email'] . "</th>" . "<th>" . $row['telephone_number'] . "</th>" . "</tr>";
-    $cuanto++;
-}
-$tablaBodyFin = "</tbody>";
-$tablaFoot = "<tfoot><tr><th colspan='3'>Total</th><th>$cuanto</th></tr></tfoot>";
-$tablaFin = "</table>";
-$output .= $tablaIni . $tablaHead . $tablaBodyIni . $medio . $tablaBodyFin . $tablaFoot . $tablaFin;
-echo "<section>" . $output . "</section>";
-
-/*include_once 'listaContactos.php';*/
+include_once 'listaContactos.php';
+include_once 'layout_foot.php';
