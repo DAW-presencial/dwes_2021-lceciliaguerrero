@@ -10,10 +10,6 @@ class Database
     private const PUERTO = "5432";
     private static $db;
 
-    private function __construct()
-    {
-    }
-
     public static function getConnection()
     {
         if (null !== self::$db) {
