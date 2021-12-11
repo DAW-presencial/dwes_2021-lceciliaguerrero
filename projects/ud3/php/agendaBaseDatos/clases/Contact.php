@@ -13,10 +13,7 @@ class Contact
         self::setConn($db);
     }
 
-    /**
-     * @return mixed
-     */
-    public static function getConn(): mixed
+    public static function getConn()
     {
         return self::$conn;
     }
