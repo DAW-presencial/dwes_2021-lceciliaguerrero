@@ -3,9 +3,9 @@
 class Contact
 {
     private static $conn;
-    private string $name;
-    private string $email;
-    private string $telf;
+    private $name;
+    private $email;
+    private $telf;
 
     /**/
     public function __construct($db)
@@ -28,19 +28,16 @@ class Contact
     /**
      * @param $conn
      */
-    public static function setConn($conn): void
+    public static function setConn($conn)
     {
         self::$conn = $conn;
     }
 
     /**
      * Show the form for creating a new resource.
-     * @param string $name
-     * @param mixed $email
-     * @param string $telf
      * @return bool
      */
-    public function create(string $name, mixed $email, string $telf): bool
+    public function create(string $name, $email, string $telf): bool
     {
         $this->setName($name);
         $this->setEmail($email);
@@ -93,23 +90,23 @@ class Contact
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(string $name)
     {
         $this->name = $name;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
 
     /**
-     * @param string $email
+     * @param $email
      */
-    public function setEmail(string $email): void
+    public function setEmail($email)
     {
         $this->email = $email;
     }
@@ -125,17 +122,16 @@ class Contact
     /**
      * @param string $telf
      */
-    public function setTelf(string $telf): void
+    public function setTelf(string $telf)
     {
         $this->telf = $telf;
     }
 
     /**
      * Existe email
-     * @param mixed $email
      * @return bool
      */
-    public function existEmail(mixed $email): bool
+    public function existEmail($email): bool
     {
         /*$query = "select name, email, telephone_number from contact;";*/
         $query = "select name, email, telephone_number from contact where email = :email;";
@@ -175,10 +171,10 @@ class Contact
     }
 
     /**
-     * @param mixed $stmt
+     * @param $stmt
      * @return string
      */
-    public function showError(mixed $stmt): string
+    public function showError($stmt): string
     {
         return "<pre>" . $stmt->errorInfo() . "</pre>";
     }
@@ -186,11 +182,11 @@ class Contact
     /**
      * Update the specified resource in storage.
      * @param string $name
-     * @param mixed $email
+     * @param $email
      * @param string $telf
      * @return bool
      */
-    public function update(string $name, mixed $email, string $telf): bool
+    public function update(string $name, $email, string $telf): bool
     {
         //Postgres
         $query = "update contact set name = :newName, telephone_number = :newTelephone_number where email = :email;";
@@ -216,11 +212,11 @@ class Contact
     /**
      * Remove the specified resource from storage.
      * @param string $name
-     * @param string $email
+     * @param $email
      * @param string $telf
      * @return bool
      */
-    public function destroy(string $name, string $email, string $telf): bool
+    public function destroy(string $name, $email, string $telf): bool
     {
         $this->setName($name);
         $this->setEmail($email);
@@ -250,11 +246,11 @@ class Contact
     }
 
     /**
-     * @param mixed $email
+     * @param $email
      * @param string $telf
      * @return bool
      */
-    public function exist(mixed $email, string $telf): bool
+    public function exist($email, string $telf): bool
     {
         $query = "select name, email, telephone_number from contact where email = :email or telephone_number = :telephone_number;";
         $myPrepare = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY);
@@ -279,11 +275,11 @@ class Contact
     }
 
     /**
-     * @param mixed $limiteInicio
-     * @param mixed $limiteFin
-     * @return mixed|string|void
+     * @param $limiteInicio
+     * @param $limiteFin
+     * @return string
      */
-    public function list(mixed $limiteInicio, mixed $limiteFin)
+    public function list($limiteInicio, $limiteFin)
     {
         //Postgres
         $query = "select id, name, email, telephone_number from contact order by name limit $limiteFin offset $limiteInicio;";
@@ -294,6 +290,9 @@ class Contact
         }
     }
 
+    /**
+     * @return string
+     */
     public function listComplete()
     {
         //Postgres

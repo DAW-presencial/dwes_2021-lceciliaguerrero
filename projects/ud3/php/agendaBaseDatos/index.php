@@ -11,9 +11,9 @@ $db = Database::getConnection();
 $contacto = new Contact($db);
 
 
-(string)$nombre = filter_input(INPUT_POST, 'nameForm', FILTER_CALLBACK, array('options' => 'validateNombre'));
+$nombre = filter_input(INPUT_POST, 'nameForm', FILTER_CALLBACK, array('options' => 'validateNombre'));
 $correo = filter_input(INPUT_POST, 'emailForm', FILTER_VALIDATE_EMAIL, array('options' => 'validateEmail'));
-(string)$telefono = filter_input(INPUT_POST, 'telephoneForm', FILTER_CALLBACK, array('options' => 'validateTelf'));
+$telefono = filter_input(INPUT_POST, 'telephoneForm', FILTER_CALLBACK, array('options' => 'validateTelf'));
 
 
 function validateNombre(string $name)
