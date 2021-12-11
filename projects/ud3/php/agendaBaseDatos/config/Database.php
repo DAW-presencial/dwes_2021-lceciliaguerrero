@@ -2,12 +2,12 @@
 
 class Database
 {
-    private const GESTOR_BASE_DATOS = "pgsql";
-    private const CONTRA = "laura";
-    private const USUARIO = "lcecilia_usr";
-    private const NOMBRE_BASE_DATOS = "lcecilia_agendaDB_db";
-    private const RUTA_SERVIDOR = "localhost";
-    private const PUERTO = "5432";
+    const GESTOR_BASE_DATOS = "pgsql";
+    const CONTRA = "laura";
+    const USUARIO = "lcecilia_usr";
+    const NOMBRE_BASE_DATOS = "lcecilia_agendaDB_db";
+    const RUTA_SERVIDOR = "localhost";
+    const PUERTO = "5432";
     private static $db;
 
     public static function getConnection()
