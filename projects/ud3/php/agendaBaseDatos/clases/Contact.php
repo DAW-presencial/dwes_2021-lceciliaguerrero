@@ -2,13 +2,13 @@
 
 class Contact
 {
-    private static mixed $conn;
+    private static $conn;
     private string $name;
     private string $email;
     private string $telf;
 
     /**/
-    public function __construct(mixed $db)
+    public function __construct($db)
     {
         self::setConn($db);
     }
@@ -29,9 +29,9 @@ class Contact
     }*/
 
     /**
-     * @param mixed $conn
+     * @param $conn
      */
-    public static function setConn(mixed $conn): void
+    public static function setConn($conn): void
     {
         self::$conn = $conn;
     }
