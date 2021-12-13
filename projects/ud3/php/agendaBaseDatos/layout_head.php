@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $titulo ?></title>
-    <link type="text/css" href="<?php echo "libs/css/styles.css" ?>" rel="stylesheet" />
+    <link type="text/css" href="<?= "libs/css/genericStyles.css" ?>" rel="stylesheet" />
 </head>
 <body>
 <header>

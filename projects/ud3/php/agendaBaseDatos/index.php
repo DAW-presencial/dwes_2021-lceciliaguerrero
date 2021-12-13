@@ -15,7 +15,11 @@ $nombre = filter_input(INPUT_POST, 'nameForm', FILTER_CALLBACK, array('options' 
 $correo = filter_input(INPUT_POST, 'emailForm', FILTER_VALIDATE_EMAIL, array('options' => 'validateEmail'));
 $telefono = filter_input(INPUT_POST, 'telephoneForm', FILTER_CALLBACK, array('options' => 'validateTelf'));
 
-
+/**
+ * Valido nombre.
+ * @param string $name
+ * @return false|string
+ */
 function validateNombre(string $name)
 {
     if (is_string(trim($name)) && (strlen(trim($name)) > 2)) {
@@ -24,6 +28,11 @@ function validateNombre(string $name)
     return false;
 }
 
+/**
+ * Valido correo electrónico.
+ * @param mixed $email
+ * @return false|mixed
+ */
 function validateEmail(mixed $email)
 {
     if (!($email === false) && !is_null($email)) {
@@ -32,6 +41,11 @@ function validateEmail(mixed $email)
     return false;
 }
 
+/**
+ * Valido numero de teléfono.
+ * @param string $telf
+ * @return false|string
+ */
 function validateTelf(string $telf)
 {
     if ((strlen(trim($telf)) <= 11)) {

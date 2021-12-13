@@ -1,10 +1,11 @@
 <section>
     <h1>Crear, Actualizar o Eliminar Contacto</h1>
+    <p></p>
     <form method="post" enctype="multipart/form-data">
         <label for="nombreForm">
             Nombre:
         </label>
-        <input id="nombreForm" type="text" name="nameForm"><br>
+        <input id="nombreForm" type="text" name="nameForm" placeholder=""><br>
         <label for="correoForm">
             Correo electrónico:
         </label>

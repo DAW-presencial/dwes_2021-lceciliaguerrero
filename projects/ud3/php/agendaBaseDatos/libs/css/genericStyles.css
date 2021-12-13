@@ -1,0 +1,195 @@
+/*Fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Open+Sans&family=PT+Serif');
+
+:root {
+    --antique-brass: #b98b73ff;
+    --antique-brass-2: #cb997eff;
+    --desert-sand: #ddbea9ff;
+    --champagne-pink: #ffe8d6ff;
+    --bone: #d4c7b0ff;
+    --ash-gray: #b7b7a4ff;
+    --artichoke: #a5a58dff;
+    --ebony: #6b705cff;
+    --black-olive: #3f4238ff;
+    --error-form: #7c0202;
+}
+
+/*Estilos para el formulario*/
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 2.5% 5%;
+
+}
+
+form > label {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0;
+    min-width: 100%; /**/
+    color: var(--champagne-pink);
+    font-family: 'Fira Sans', sans-serif;
+}
+
+form > label > abbr {
+    background-color: var(--champagne-pink);
+    color: var(--error-form);
+}
+
+form > input:not([type="submit"]):not([type="button"]),
+form > div > input[type="password"], form > div > input[type="text"],
+form > textarea,
+form > input:not([type="submit"]):not([type="button"])[title],
+form > div > input[type="password"][title], form > div > input[type="password"][title],
+form > textarea[title] {
+    font-family: 'PT Serif', serif;
+}
+
+form > input:not([type="submit"]):not([type="button"]),
+form > div > input[type="password"], form > div > input[type="text"],
+form > textarea {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    font-size: large;
+    margin: 5px 0;
+    min-width: 100%;
+    border-radius: 10px;
+}
+
+
+form > input:not([type="submit"]):not([type="button"]):focus,
+form > div > input[type="password"]:focus, form > div > input[type="text"]:focus,
+form > textarea:focus {
+    color: var(--antique-brass-2);
+}
+
+
+form > div > input[type="password"] > i {
+    color: var(--champagne-pink);
+}
+
+form > input:not([type="submit"]):not([type="button"]) {
+    flex: 1;
+}
+
+form > input[type="button"], form > input[type="submit"] {
+    padding: 15px 40px;
+    border-radius: 6px;
+    text-transform: capitalize;
+    border-color: transparent;
+    font-weight: bold;
+    text-align: center;
+    opacity: inherit;
+    font-family: 'PT Serif', serif;
+}
+
+/*Estilos del text area input */
+form > textarea {
+    resize: none;
+    flex-wrap: wrap;
+    height: 100px;
+}
+
+form > div {
+    display: flex;
+    flex-direction: row;
+    min-width: 100%;
+}
+
+
+form > span {
+    background-color: var(--champagne-pink);
+    color: var(--error-form);
+    font-family: 'PT Serif', serif;
+    min-width: 100%;
+}
+
+section:nth-child(2) {
+    background: var(--black-olive);
+}
+
+section:nth-child(2) > h1 {
+    color: var(--champagne-pink);
+    text-align: center;
+}
+
+/*Estilos que afectan a la sección de la tabla*/
+section:nth-child(3) > table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/*Clase listadoEventos*/
+section:nth-child(3) {
+    font-family: 'Open Sans', sans-serif;
+    background: #fff;
+    overflow: hidden;
+}
+
+/*Estilos de los elementos de la tabla*/
+
+section:nth-child(3) > table td, section:nth-child(3) > table th {
+    padding: 6px 1px;
+}
+
+section:nth-child(3) > table td:nth-child(1), section:nth-child(3) > table th:nth-child(1) {
+    width: 30%;
+}
+
+section:nth-child(3) > table td:nth-child(2), section:nth-child(3) > table th:nth-child(2) {
+    width: 10%;
+}
+
+section:nth-child(3) > table td:nth-child(3), section:nth-child(3) > table th:nth-child(3) {
+    width: 10%;
+}
+
+section:nth-child(3) > table td:nth-child(4), section:nth-child(3) > table th:nth-child(4) {
+    width: 15%;
+}
+
+section:nth-child(3) > table td:nth-child(5), section:nth-child(3) > table th:nth-child(5),
+section:nth-child(3) > table td:nth-child(6), section:nth-child(3) > table th:nth-child(6) {
+    width: 6%;
+}
+
+section:nth-child(3) > table thead th, section:nth-child(3) > table tfoot th {
+    background: linear-gradient(to top, var(--black-olive) 5%, var(--artichoke) 100%);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+section:nth-child(3) > table thead th:first-child, section:nth-child(3) > table tfoot th:first-child {
+    border: none;
+}
+
+section:nth-child(3) > table tbody {
+    width: 70px;
+    overflow: auto;
+
+}
+
+section:nth-child(3) > table tbody td {
+    color: var(--black-olive);
+    font-size: 13px;
+    font-weight: normal;
+}
+
+section:nth-child(3) > table tbody tr:nth-child(0) td {
+    background: #F4E3FF;
+    color: var(--black-olive);
+}
+
+section:nth-child(3) > table tbody td:first-child {
+    border-left: none;
+}
+
+section:nth-child(3) > table tbody tr:last-child td {
+    border-bottom: none;
+}

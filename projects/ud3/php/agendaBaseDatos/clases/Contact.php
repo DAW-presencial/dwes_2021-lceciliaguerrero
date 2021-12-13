@@ -7,7 +7,6 @@ class Contact
     private $email;
     private $telf;
 
-    /**/
     public function __construct($db)
     {
         self::setConn($db);
@@ -17,13 +16,6 @@ class Contact
     {
         return self::$conn;
     }
-    /*public function __construct(mixed $db, string $name, mixed $email, string $telf)
-    {
-        self::setDb($db);
-        $this->name = $name;
-        $this->email = $email;
-        $this->telf = $telf;
-    }*/
 
     /**
      * @param $conn
@@ -34,7 +26,10 @@ class Contact
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Creo un contrato
+     * @param string $name
+     * @param $email
+     * @param string $telf
      * @return bool
      */
     public function create(string $name, $email, string $telf): bool
@@ -67,16 +62,6 @@ class Contact
             echo "Error creación del contacto" . $PDOExceptionCreate->getMessage();
             return false;
         }
-
-        /*$stmtPrepare = $this->conn->prepare($query);
-        $result = $this->conn->execute($param);
-        if ($result) {
-            echo "<p>Usuario creado correctamente<p>";
-            return true;
-        } else {
-            $this->showError($result);
-            return false;
-        }*/
     }
 
     /**
@@ -128,49 +113,6 @@ class Contact
     }
 
     /**
-     * Existe email
-     * @return bool
-     */
-    public function existEmail($email): bool
-    {
-        /*$query = "select name, email, telephone_number from contact;";*/
-        $query = "select name, email, telephone_number from contact where email = :email;";
-        $myPrepare = array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY);
-        $param = array(':email' => $email);
-        /*$param = array(':name' => $this->getName(), ':email' => $this->getEmail(), ':telephone_number' => $this->getTelf());*/
-        try {
-            $stmtPrepare = self::getConn()->prepare($query, $myPrepare);
-            $stmtPrepare->execute($param);
-            $resultado = boolval($stmtPrepare->fetchAll());
-            if ($resultado === true) {
-                $stmtPrepare->rowCount();
-                echo "<p>El usuario ya existe<p>";
-                return true;
-            } else {
-                echo "<p>El usuario no existe<p>";
-                return false;
-            }
-        } catch (PDOException $PDOExceptionExistName) {
-            echo "Error exist nombre del contacto" . $PDOExceptionExistName->getMessage();
-            return false;
-        }
-
-        /*$nombre = htmlspecialchars(strip_tags($this->getName()));
-
-        $stmt = self::getDb()->prepare($query);
-        $stmt->bindParam(':name', $nombre);
-        if ($stmt->execute()) {
-            $stmt->rowCount();
-            echo "<p>El usuario ya existe<p>";
-            return true;
-        } else {
-            $this->showError($stmt);
-            echo "<p>El usuario no existe<p>";
-            return false;
-        }*/
-    }
-
-    /**
      * @param $stmt
      * @return string
      */
@@ -180,7 +122,7 @@ class Contact
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizo el contacto
      * @param string $name
      * @param $email
      * @param string $telf
@@ -210,7 +152,7 @@ class Contact
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimino un contacto.
      * @param string $name
      * @param $email
      * @param string $telf
@@ -246,6 +188,7 @@ class Contact
     }
 
     /**
+     * Verifico si existe el contacto.
      * @param $email
      * @param string $telf
      * @return bool
@@ -262,10 +205,8 @@ class Contact
             $resultado = boolval($stmtPrepare->fetchAll());
             if ($resultado === true) {
                 $stmtPrepare->rowCount();
-                echo "<p>El usuario ya existe<p>";
                 return true;
             } else {
-                echo "<p>El usuario no existe<p>";
                 return false;
             }
         } catch (PDOException $PDOExceptionExist) {
@@ -275,6 +216,7 @@ class Contact
     }
 
     /**
+     * Listo los contactos con un límite.
      * @param $limiteInicio
      * @param $limiteFin
      * @return string
@@ -291,6 +233,7 @@ class Contact
     }
 
     /**
+     * Listo todos los contactos.
      * @return string
      */
     public function listComplete()
