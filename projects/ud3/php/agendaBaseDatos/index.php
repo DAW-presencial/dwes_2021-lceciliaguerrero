@@ -36,7 +36,7 @@ function validateNombre(string $name): bool
  */
 function validateEmail($email): bool
 {
-    $countArroba = 0;
+    /*$countArroba = 0;
     $countPunto = 0;
     for ($i = strripos(trim($email), "@"); $i < strlen(trim($email)); $i++) {
         if (substr(trim($email), $i) === "@") {
@@ -65,6 +65,10 @@ function validateEmail($email): bool
     if (($nullCorreo === false) && ($arrobaCorreo === true) && ($puntoCorreo === true) && ($arrobaPuntoCorreo === true)
         && ($primeraParteLetraMinus === true) && ($segundaParteLong === true) && ($segundaParteLetraMinus === true)
         && ($terceraParteMinus === true) && ($terceraParteLong === true)) {
+        return true;
+    }
+    return false;*/
+    if (!($email === false) && !is_null($email)) {
         return true;
     }
     return false;
