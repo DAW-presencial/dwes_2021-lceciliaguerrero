@@ -1,4 +1,4 @@
-<section>
+<section class="listado">
     <?php
     $cuanto = 0;
     $output = "";

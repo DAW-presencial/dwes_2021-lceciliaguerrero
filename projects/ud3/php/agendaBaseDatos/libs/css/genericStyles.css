@@ -1,6 +1,3 @@
-/*Fonts*/
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&family=Open+Sans&family=PT+Serif');
-
 :root {
     --antique-brass: #b98b73ff;
     --antique-brass-2: #cb997eff;
@@ -14,44 +11,66 @@
     --error-form: #7c0202;
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+main > section:nth-child(1) {
+    background: var(--black-olive);
+    position: relative;
+    max-height: 90%;
+    border-radius: 5px;
+    overflow: auto;
+    cursor: default;
+}
+
+main > section:nth-child(1) > h1 {
+    color: var(--champagne-pink);
+    text-align: center;
+}
+main > section:nth-child(1) > p {
+    color: var(--champagne-pink);
+}
+main > section:nth-child(1) abbr {
+    background-color: var(--champagne-pink);
+    color: var(--error-form);
+}
+
 /*Estilos para el formulario*/
-form {
+main > section:nth-child(1) > form {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     flex-wrap: wrap;
     margin: 2.5% 5%;
-
 }
 
-form > label {
+main > section:nth-child(1) > form > label {
     text-align: left;
     display: flex;
     flex-direction: row;
     margin: 5px 0;
-    min-width: 100%; /**/
+    min-width: 100%;
     color: var(--champagne-pink);
-    font-family: 'Fira Sans', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-form > label > abbr {
+main > section:nth-child(1) > form > label > abbr {
     background-color: var(--champagne-pink);
     color: var(--error-form);
 }
 
-form > input:not([type="submit"]):not([type="button"]),
-form > div > input[type="password"], form > div > input[type="text"],
-form > textarea,
-form > input:not([type="submit"]):not([type="button"])[title],
-form > div > input[type="password"][title], form > div > input[type="password"][title],
-form > textarea[title] {
-    font-family: 'PT Serif', serif;
+main > section:nth-child(1) > form > input:not([type="submit"]):not([type="button"]),
+main > section:nth-child(1) > form > textarea,
+main > section:nth-child(1) > form > input:not([type="submit"]):not([type="button"])[title],
+main > section:nth-child(1) > form > textarea[title] {
+    font-family: Georgia, Times, 'Times New Roman', serif;
 }
 
-form > input:not([type="submit"]):not([type="button"]),
-form > div > input[type="password"], form > div > input[type="text"],
-form > textarea {
+main > section:nth-child(1) > form > input:not([type="submit"]):not([type="button"]),
+main > section:nth-child(1) > form > textarea {
     display: flex;
     flex-direction: column;
     padding: 15px;
@@ -61,23 +80,17 @@ form > textarea {
     border-radius: 10px;
 }
 
-
-form > input:not([type="submit"]):not([type="button"]):focus,
-form > div > input[type="password"]:focus, form > div > input[type="text"]:focus,
-form > textarea:focus {
+main > section:nth-child(1) > form > input:not([type="submit"]):not([type="button"]):focus,
+main > section:nth-child(1) > form > textarea:focus {
     color: var(--antique-brass-2);
 }
 
-
-form > div > input[type="password"] > i {
-    color: var(--champagne-pink);
-}
-
-form > input:not([type="submit"]):not([type="button"]) {
+main > section:nth-child(1) > form > input:not([type="submit"]):not([type="button"]) {
     flex: 1;
 }
 
-form > input[type="button"], form > input[type="submit"] {
+main > section:nth-child(1) > form > input[type="button"],
+main > section:nth-child(1) > form > input[type="submit"] {
     padding: 15px 40px;
     border-radius: 6px;
     text-transform: capitalize;
@@ -85,111 +98,112 @@ form > input[type="button"], form > input[type="submit"] {
     font-weight: bold;
     text-align: center;
     opacity: inherit;
-    font-family: 'PT Serif', serif;
+    font-family: Georgia, Times, 'Times New Roman', serif;
 }
 
 /*Estilos del text area input */
-form > textarea {
+main > section:nth-child(1) > form > textarea {
     resize: none;
     flex-wrap: wrap;
     height: 100px;
 }
 
-form > div {
+main > section:nth-child(1) > form > div {
     display: flex;
     flex-direction: row;
     min-width: 100%;
 }
 
-
-form > span {
+main > section:nth-child(1) > form > span {
     background-color: var(--champagne-pink);
     color: var(--error-form);
-    font-family: 'PT Serif', serif;
+    font-family: Georgia, Times, 'Times New Roman', serif;
     min-width: 100%;
 }
 
-section:nth-child(2) {
-    background: var(--black-olive);
-}
 
-section:nth-child(2) > h1 {
-    color: var(--champagne-pink);
-    text-align: center;
-}
-
-/*Estilos que afectan a la sección de la tabla*/
-section:nth-child(3) > table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-/*Clase listadoEventos*/
-section:nth-child(3) {
-    font-family: 'Open Sans', sans-serif;
+    /*Clase listado*/
+.listado {
+    font-family: Arial, Helvetica, sans-serif;
     background: #fff;
     overflow: hidden;
 }
 
-/*Estilos de los elementos de la tabla*/
+/*Estilos que afectan a la sección de la tabla*/
+.listado > table {
+    border-collapse: collapse;
+    width: 100%;
+}
 
-section:nth-child(3) > table td, section:nth-child(3) > table th {
+.listado > table td,
+.listado > table th {
     padding: 6px 1px;
 }
 
-section:nth-child(3) > table td:nth-child(1), section:nth-child(3) > table th:nth-child(1) {
+.listado > table td:nth-child(1),
+.listado > table th:nth-child(1) {
     width: 30%;
 }
 
-section:nth-child(3) > table td:nth-child(2), section:nth-child(3) > table th:nth-child(2) {
+.listado > table td:nth-child(2),
+.listado > table th:nth-child(2) {
     width: 10%;
 }
 
-section:nth-child(3) > table td:nth-child(3), section:nth-child(3) > table th:nth-child(3) {
+.listado > table td:nth-child(3),
+.listado > table th:nth-child(3) {
     width: 10%;
 }
 
-section:nth-child(3) > table td:nth-child(4), section:nth-child(3) > table th:nth-child(4) {
+.listado > table td:nth-child(4),
+.listado > table th:nth-child(4) {
     width: 15%;
 }
 
-section:nth-child(3) > table td:nth-child(5), section:nth-child(3) > table th:nth-child(5),
-section:nth-child(3) > table td:nth-child(6), section:nth-child(3) > table th:nth-child(6) {
+.listado > table td:nth-child(5),
+.listado > table th:nth-child(5),
+.listado > table td:nth-child(6),
+.listado > table th:nth-child(6) {
     width: 6%;
 }
 
-section:nth-child(3) > table thead th, section:nth-child(3) > table tfoot th {
-    background: linear-gradient(to top, var(--black-olive) 5%, var(--artichoke) 100%);
-    color: #FFFFFF;
+.listado > table thead th,
+.listado > table tfoot th {
+    background: linear-gradient(
+            to top,
+            var(--black-olive) 5%,
+            var(--artichoke) 100%
+    );
+    color: var(--champagne-pink);
     font-size: 14px;
     font-weight: bold;
 }
 
-section:nth-child(3) > table thead th:first-child, section:nth-child(3) > table tfoot th:first-child {
+.listado > table thead th:first-child,
+.listado > table tfoot th:first-child {
     border: none;
 }
 
-section:nth-child(3) > table tbody {
+.listado > table tbody {
     width: 70px;
     overflow: auto;
-
 }
 
-section:nth-child(3) > table tbody td {
+.listado > table tbody td {
     color: var(--black-olive);
     font-size: 13px;
     font-weight: normal;
 }
 
-section:nth-child(3) > table tbody tr:nth-child(0) td {
-    background: #F4E3FF;
+.listado > table tbody tr:nth-child(0) td {
+    background: var(--antique-brass);
     color: var(--black-olive);
 }
 
-section:nth-child(3) > table tbody td:first-child {
+.listado > table tbody td:first-child {
     border-left: none;
 }
 
-section:nth-child(3) > table tbody tr:last-child td {
+.listado > table tbody tr:last-child td {
     border-bottom: none;
 }

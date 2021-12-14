@@ -11,32 +11,61 @@ $db = Database::getConnection();
 $contacto = new Contact($db);
 
 
-$nombre = filter_input(INPUT_POST, 'nameForm', FILTER_CALLBACK, array('options' => 'validateNombre'));
-$correo = filter_input(INPUT_POST, 'emailForm', FILTER_VALIDATE_EMAIL, array('options' => 'validateEmail'));
-$telefono = filter_input(INPUT_POST, 'telephoneForm', FILTER_CALLBACK, array('options' => 'validateTelf'));
+$nombre = filter_input(INPUT_POST, 'nameForm');
+$correo = filter_input(INPUT_POST, 'emailForm');
+$telefono = filter_input(INPUT_POST, 'telephoneForm');
+
 
 /**
  * Valido nombre.
  * @param string $name
- * @return false|string
+ * @return bool
  */
-function validateNombre(string $name)
+function validateNombre(string $name): bool
 {
-    if (is_string(trim($name)) && (strlen(trim($name)) > 2)) {
-        return $name;
+    if (is_string(trim($name)) && (strlen(trim($name)) <= 30)) {
+        return true;
     }
     return false;
 }
 
 /**
  * Valido correo electrónico.
- * @param mixed $email
- * @return false|mixed
+ * @param $email
+ * @return bool
  */
-function validateEmail(mixed $email)
+function validateEmail($email): bool
 {
-    if (!($email === false) && !is_null($email)) {
-        return $email;
+    $countArroba = 0;
+    $countPunto = 0;
+    for ($i = strripos(trim($email), "@"); $i < strlen(trim($email)); $i++) {
+        if (substr(trim($email), $i) === "@") {
+            $countArroba++;
+        }
+    }
+
+    for ($i = strripos(trim($email), "."); $i < strlen(trim($email)); $i++) {
+        if (substr(trim($email), $i) === ".") {
+           $countPunto++;
+        }
+    }
+
+    $punto = ".";
+    $arroba = "@";
+    $nullCorreo = boolval(trim($email) !== "");
+    $arrobaCorreo = boolval($countArroba !== 1);
+    $puntoCorreo = boolval($countPunto !== 1);
+    $arrobaPuntoCorreo = boolval(substr(trim($email), strripos(trim($email), $punto)) < substr(trim($email), strripos(trim($email), $arroba)));
+    $primeraParteLetraMinus = boolval(substr(trim($email), 1, strripos(trim($email), substr(trim($email), strripos(trim($email), $arroba)))) !== strtolower(substr(trim($email), 1, strripos(trim($email), substr(trim($email), strripos(trim($email), $arroba))))));
+    $segundaParteLong = boolval((strlen(substr(trim($email), strripos(trim($email), substr(trim($email), strripos(trim($email), $arroba))), strripos(trim($email), substr(trim($email), strripos(trim($email), $punto))))) >= 4) && (strlen(substr(trim($email), strripos(trim($email), substr(trim($email), strripos(trim($email), $arroba))), strripos(trim($email), substr(trim($email), strripos(trim($email), $punto))))) <= 12));
+    $segundaParteLetraMinus = boolval(substr(trim($email), strripos(trim($email), substr(trim($email), strripos(trim($email), $arroba))), strripos(trim($email), substr(trim($email), strripos(trim($email), $punto)))) !== strtolower(substr(trim($email), strripos(trim($email), substr(trim($email), strripos(trim($email), $arroba))), strripos(trim($email), substr(trim($email), strripos(trim($email), $punto))))));
+    $terceraParteMinus = boolval(substr(trim($email), strripos(trim($email), substr(trim($email), strripos(trim($email), $punto))), strlen(trim($email))) !== strtolower(substr(trim($email), strripos(trim($email), substr(trim($email), strripos(trim($email), $punto))), strlen(trim($email)))));
+    $terceraParteLong = boolval((strlen(substr(trim($email), strripos(trim($email), substr(trim($email), strripos(trim($email), $punto))), strlen(trim($email)))) >= 2) && (strlen(substr(trim($email), strripos(trim($email), substr(trim($email), strripos(trim($email), $punto))), strlen(trim($email)))) <= 4));
+
+    if (($nullCorreo === false) && ($arrobaCorreo === true) && ($puntoCorreo === true) && ($arrobaPuntoCorreo === true)
+        && ($primeraParteLetraMinus === true) && ($segundaParteLong === true) && ($segundaParteLetraMinus === true)
+        && ($terceraParteMinus === true) && ($terceraParteLong === true)) {
+        return true;
     }
     return false;
 }
@@ -44,12 +73,12 @@ function validateEmail(mixed $email)
 /**
  * Valido numero de teléfono.
  * @param string $telf
- * @return false|string
+ * @return bool
  */
-function validateTelf(string $telf)
+function validateTelf(string $telf): bool
 {
-    if ((strlen(trim($telf)) <= 11)) {
-        return $telf;
+    if (is_string(trim($telf)) && (strlen(trim($telf)) <= 11)) {
+        return true;
     }
     return false;
 }
@@ -60,12 +89,20 @@ if (isset($_POST['createUpdateForm'])) {
     global $nombre;
     global $correo;
     global $telefono;
-    $contacto->create($nombre, $correo, $telefono);
+    if (validateNombre($nombre) === true && validateEmail($correo) === true && validateTelf($telefono) === true) {
+        $contacto->create($nombre, $correo, $telefono);
+    } else {
+        echo "Error, algún dato no ha sido puesto";
+    }
 } elseif (isset($_POST['deleteForm'])) {
     global $nombre;
     global $correo;
     global $telefono;
-    $contacto->destroy($nombre, $correo, $telefono);
+    if (validateNombre($nombre) === true && validateEmail($correo) === true && validateTelf($telefono) === true) {
+        $contacto->destroy($nombre, $correo, $telefono);
+    } else {
+        echo "Error, algún dato no ha sido puesto";
+    }
 }
 /*$myList = $contacto->list($limiteConsulaPagina, $registrosPagina);*/
 $myList = $contacto->listComplete();
